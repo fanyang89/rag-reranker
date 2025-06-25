@@ -1,0 +1,25 @@
+version: "3"
+
+env:
+  RERANKER_MODEL: "tomaarsen/Qwen3-Reranker-0.6B-seq-cls"
+
+tasks:
+  default:
+    cmds:
+      - task: rerank
+
+  rerank:
+    env:
+      DO_NOT_TRACK: 1
+      INFINITY_ANONYMOUS_USAGE_STATS: 0
+    cmds:
+      - uv run infinity_emb v2 --model-id {{.RERANKER_MODEL}}
+
+  sync:
+    cmds:
+      - uv sync
+      - sed -i 's/raise RuntimeError/print/g' $(fd -HI __init__.py | grep 'bettertransformer/_')
+
+  download:
+    cmds:
+      - uvx --from "huggingface_hub[cli]" huggingface-cli download {{.RERANKER_MODEL}}
