@@ -1,7 +1,7 @@
 version: "3"
 
 env:
-  RERANKER_MODEL: "tomaarsen/Qwen3-Reranker-0.6B-seq-cls"
+  RERANKER_MODEL: "BAAI/bge-reranker-v2-m3"
 
 tasks:
   default:
